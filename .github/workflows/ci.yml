@@ -1,0 +1,15 @@
+name: DewaterIQ Simulation CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install jsonschema pytest
+      - run: make -C embedded
+      - run: make -C embedded test
+      - run: python -m pytest tests -q
+      - run: python -m dewateriq_backend.cli demo --scenario load --samples 60

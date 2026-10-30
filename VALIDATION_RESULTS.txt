@@ -1,0 +1,15 @@
+DewaterIQ 1.2 validation summary - 2026-10-29
+Native C99 GCC: compiled with -std=c99 -Wall -Wextra -Wpedantic -Werror
+C Makefile deterministic replay: PASSED
+Portable STM32 edge C99 core host-compiled and exercised: PASSED
+STM32 HAL/UART adapter syntax and mocked output (stub): PASSED
+JSON Schema records from all 13 STM32 simulator modes: VALIDATED
+Pytest tests: 25 PASSED
+UART serial bridge schema validation and capture persistence via mock stream: PASSED
+Actual STM32CubeIDE ARM cross-compile: NOT performed (toolchain/ST HAL not available here)
+STM32 physical flash/serial connection: NOT performed (hardware with user)
+Nebius NVIDIA live inference: NOT verified (user credentials/access not available)
+Streamlit browser UI: previously confirmed running by user, not relaunched in this environment
+MQTT transport: not verified with live broker
+Industrial machine/sensor integration: NOT PRESENT
+SIMULATION ONLY / READ-ONLY / ADVISORY

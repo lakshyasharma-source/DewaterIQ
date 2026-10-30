@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DewaterIQ synthetic telemetry 1.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "data_source", "timestamp_s", "rig_id", "centrifuge_id", "run_id", "scenario", "operating_mode", "centrifuge_role", "mud_type", "formation", "machine", "hydraulic_process", "mud_chemistry", "control_response", "output", "fault", "event", "sensor_valid"],
+  "properties": {
+    "schema_version": {"const": "1.1"},
+    "data_source": {"const": "synthetic"},
+    "timestamp_s": {"type":"integer", "minimum":1},
+    "rig_id": {"type":"string", "minLength":1},
+    "centrifuge_id": {"type":"string", "minLength":1},
+    "run_id": {"type":"string", "minLength":1},
+    "scenario": {"type":"string"},
+    "operating_mode": {"enum":["polishing", "dewatering", "intentional_volume_loss", "barite_recovery"]},
+    "centrifuge_role": {"type":"string"},
+    "mud_type": {"enum":["OBM","WBM"]},
+    "formation": {"type":"string"},
+    "machine": {
+      "type":"object", "additionalProperties": false,
+      "required":["commanded_virtual_centrifuge_rpm","simulated_actual_centrifuge_rpm","commanded_virtual_feed_pump_percent","simulated_feed_pump_rpm","virtual_vfd_frequency_hz","simulated_vfd_frequency_hz","motor_current_a","torque_percent","bearing_temperature_c","vibration_mm_s","drive_status","runtime_hours"],
+      "properties": {
+        "commanded_virtual_centrifuge_rpm":{"type":"number"},
+        "simulated_actual_centrifuge_rpm":{"type":"number","minimum":0},
+        "commanded_virtual_feed_pump_percent":{"type":"number"},
+        "simulated_feed_pump_rpm":{"type":"number","minimum":0},
+        "virtual_vfd_frequency_hz":{"type":"number"},
+        "simulated_vfd_frequency_hz":{"type":"number"},
+        "motor_current_a":{"type":"number","minimum":0},
+        "torque_percent":{"type":"number"},
+        "bearing_temperature_c":{"type":"number"},
+        "vibration_mm_s":{"type":"number","minimum":0},
+        "drive_status":{"enum":["running","fault","stopped"]},
+        "runtime_hours":{"type":"number","minimum":0}
+      }
+    },
+    "hydraulic_process": {
+      "type":"object", "additionalProperties": false,
+      "required":["commanded_virtual_flow_gpm","actual_flow_gpm","source_pit","destination_pit","source_pit_level_percent","destination_pit_level_percent","virtual_valve_position_percent","transfer_state"],
+      "properties": {
+        "commanded_virtual_flow_gpm":{"type":"number"},
+        "actual_flow_gpm":{"type":"number","minimum":0},
+        "source_pit":{"type":"string"},
+        "destination_pit":{"type":"string"},
+        "source_pit_level_percent":{"type":"number","minimum":0,"maximum":100},
+        "destination_pit_level_percent":{"type":"number","minimum":0,"maximum":100},
+        "virtual_valve_position_percent":{"type":"number"},
+        "transfer_state":{"type":"string"}
+      }
+    },
+    "mud_chemistry": {
+      "type":"object", "additionalProperties": false,
+      "required":["mud_weight_ppg","specific_gravity","lgs_percent","hgs_percent","ph","polymer_dose_command_percent","simulated_polymer_dose_percent","chemical_dose_command_percent","simulated_chemical_dose_percent","polymer_type","preparation_state"],
+      "properties": {
+        "mud_weight_ppg":{"type":"number"},
+        "specific_gravity":{"type":"number"},
+        "lgs_percent":{"type":"number"},
+        "hgs_percent":{"type":"number"},
+        "ph":{"type":"number","minimum":0,"maximum":14},
+        "polymer_dose_command_percent":{"type":"number"},
+        "simulated_polymer_dose_percent":{"type":"number"},
+        "chemical_dose_command_percent":{"type":"number"},
+        "simulated_chemical_dose_percent":{"type":"number"},
+        "polymer_type":{"type":"string"},
+        "preparation_state":{"type":"string"}
+      }
+    },
+    "control_response": {
+      "type":"object", "additionalProperties": false,
+      "required":["controller_mode","rpm_setpoint","flow_setpoint_gpm","rpm_controller_output","rpm_error","flow_error","controller_saturated","control_loop_status"],
+      "properties": {
+        "controller_mode":{"const":"automatic_virtual_simulation"},
+        "rpm_setpoint":{"type":"number"},
+        "flow_setpoint_gpm":{"type":"number"},
+        "rpm_controller_output":{"type":"number"},
+        "rpm_error":{"type":"number"},
+        "flow_error":{"type":"number"},
+        "controller_saturated":{"type":"boolean"},
+        "control_loop_status":{"type":"string"}
+      }
+    },
+    "output": {
+      "type":"object", "additionalProperties": false,
+      "required":["cut_quality","simulated_solids_removal_percent","process_quality_index"],
+      "properties": {
+        "cut_quality":{"enum":["unknown","wet","dry","acceptable","degraded"]},
+        "simulated_solids_removal_percent":{"type":"number"},
+        "process_quality_index":{"type":"number"}
+      }
+    },
+    "fault":{"type":"string"},
+    "event":{"type":"string"},
+    "sensor_valid":{"type":"boolean"}
+  }
+}

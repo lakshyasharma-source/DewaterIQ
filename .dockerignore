@@ -1,0 +1,11 @@
+.git/
+.env
+.venv/
+**/__pycache__/
+.pytest_cache/
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm
+*.ndjson
+embedded/src/*.o
+embedded/dewateriq_sim
